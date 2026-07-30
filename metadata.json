@@ -1,0 +1,6 @@
+{
+  "name": "تطبيق شاشة الجامع 90 بوصة - مواقيت الصلاة والأذكار",
+  "description": "تطبيق متكامل للتحكم بعرض مواقيت الصلاة والأذكار والإعلانات على شاشات العرض الكبيرة (90 بوصة) بالجامع مع ربط تقويم أم القرى (KACST API).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
