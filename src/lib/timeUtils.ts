@@ -103,6 +103,76 @@ export function formatSecondsToHHMMSS(seconds: number): string {
 }
 
 // Web Audio API chime / beep generator for Adhan or Iqamah alerts
+export function getFallbackPrayerTimes(yg?: number, mg?: number, dg?: number, lat: number = 24.7136, lon: number = 46.6753) {
+  const today = new Date();
+  const year = yg || today.getFullYear();
+  const month = mg || (today.getMonth() + 1);
+  const day = dg || today.getDate();
+
+  const lonDiffMin = (46.6753 - lon) * 4;
+  
+  const adjustTime = (baseHour: number, baseMin: number) => {
+    let totalMinutes = baseHour * 60 + baseMin + Math.round(lonDiffMin);
+    if (totalMinutes < 0) totalMinutes += 1440;
+    totalMinutes = totalMinutes % 1440;
+    const h = Math.floor(totalMinutes / 60);
+    const m = totalMinutes % 60;
+    const period = h >= 12 ? 'PM' : 'AM';
+    const displayH = h % 12 === 0 ? 12 : h % 12;
+    const pad = (n: number) => n.toString().padStart(2, '0');
+    return `${pad(displayH)}:${pad(m)} ${period}`;
+  };
+
+  const arabicMonthsGregorian = [
+    'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
+    'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'
+  ];
+
+  const arabicMonthsHijri = [
+    'محرم', 'صفر', 'ربيع الأول', 'ربيع الآخر', 'جمادى الأولى', 'جمادى الآخرة',
+    'رجب', 'شعبان', 'رمضان', 'شوال', 'ذو القعدة', 'ذو الحجة'
+  ];
+
+  const dateObj = new Date(year, month - 1, day);
+  const startHijri = new Date(2026, 5, 16);
+  const diffDays = Math.floor((dateObj.getTime() - startHijri.getTime()) / (1000 * 3600 * 24));
+  let hijriMonthIdx = Math.floor(diffDays / 29.5) % 12;
+  if (hijriMonthIdx < 0) hijriMonthIdx += 12;
+  let hijriDay = (diffDays % 30) + 1;
+  if (hijriDay <= 0) hijriDay += 30;
+
+  return {
+    date: `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}T00:00:00`,
+    gregorianDate: {
+      year,
+      month,
+      day,
+      nameAr: arabicMonthsGregorian[month - 1] || 'يوليو'
+    },
+    hijriDate: {
+      year: 1448,
+      month: hijriMonthIdx + 1,
+      day: hijriDay,
+      nameAr: arabicMonthsHijri[hijriMonthIdx] || 'صفر'
+    },
+    solarHijriDate: {
+      year: 1404,
+      month: 11,
+      day: 8,
+      nameAr: 'الأسد'
+    },
+    prayerTimes: {
+      fajr: adjustTime(4, 20),
+      sunrise: adjustTime(5, 42),
+      dhuhr: adjustTime(12, 8),
+      asr: adjustTime(15, 30),
+      maghrib: adjustTime(18, 35),
+      isha: adjustTime(20, 5)
+    },
+    isFallback: true
+  };
+}
+
 export function playChimeSound(type: 'adhan' | 'iqamah' | 'beep' = 'adhan') {
   try {
     const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;

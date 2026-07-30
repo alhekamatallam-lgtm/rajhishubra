@@ -14,7 +14,8 @@ import {
   getCurrentPrayer,
   formatSecondsToHHMMSS,
   playChimeSound,
-  parsePrayerTimeToMinutes
+  parsePrayerTimeToMinutes,
+  getFallbackPrayerTimes
 } from '../lib/timeUtils';
 import {
   Clock,
@@ -103,17 +104,9 @@ export const DisplayView: React.FC<DisplayViewProps> = ({
     return () => clearInterval(interval);
   }, [subState, settings.autoBlackoutDuringPrayer, onSetSubState]);
 
-  if (!prayerData) {
-    return (
-      <div className={`min-h-screen ${theme.bgClass} flex flex-col items-center justify-center p-6 text-slate-100 font-sans dir-rtl`}>
-        <div className="w-16 h-16 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mb-4" />
-        <h2 className="text-2xl font-bold text-amber-300">جاري تحميل مواقيت تقويم أم القرى...</h2>
-        <p className="text-sm text-slate-400 mt-2">مدينة الملك عبدالعزيز للعلوم والتقنية (KACST API)</p>
-      </div>
-    );
-  }
+  const activePrayerData = prayerData || getFallbackPrayerTimes(now.getFullYear(), now.getMonth() + 1, now.getDate(), settings.lat, settings.lon);
 
-  const { prayerTimes, hijriDate, gregorianDate } = prayerData;
+  const { prayerTimes, hijriDate, gregorianDate } = activePrayerData;
   const nextInfo = getNextPrayerInfo(prayerTimes, now);
   const currentPrayerName = getCurrentPrayer(prayerTimes, now);
 

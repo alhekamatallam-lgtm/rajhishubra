@@ -8,6 +8,7 @@ import {
   DisplaySubState
 } from './types';
 import { DEFAULT_ADHKAR, INITIAL_ANNOUNCEMENTS } from './data/adhkar';
+import { getFallbackPrayerTimes } from './lib/timeUtils';
 import { HeaderBar } from './components/HeaderBar';
 import { DisplayView } from './components/DisplayView';
 import { ControlPanel } from './components/ControlPanel';
@@ -88,7 +89,9 @@ export default function App() {
 
   const [viewMode, setViewMode] = useState<ScreenViewMode>('display');
   const [subState, setSubState] = useState<DisplaySubState>('normal');
-  const [prayerData, setPrayerData] = useState<KacstPrayerResponse | null>(null);
+  const [prayerData, setPrayerData] = useState<KacstPrayerResponse>(() => 
+    getFallbackPrayerTimes(undefined, undefined, undefined, settings.lat, settings.lon)
+  );
   const [loadingPrayers, setLoadingPrayers] = useState<boolean>(false);
   const [isCatalogOpen, setIsCatalogOpen] = useState<boolean>(false);
 
@@ -105,7 +108,7 @@ export default function App() {
     localStorage.setItem(STORAGE_ADHKAR_KEY, JSON.stringify(adhkar));
   }, [adhkar]);
 
-  // Fetch Prayer Times from server API (Proxying KACST API)
+  // Fetch Prayer Times from server API (Proxying KACST / Aladhan API)
   const fetchPrayers = useCallback(async () => {
     setLoadingPrayers(true);
     const today = new Date();
@@ -124,14 +127,24 @@ export default function App() {
       zone: settings.zone.toString()
     });
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3500);
+
     try {
-      const res = await fetch(`/api/prayers?${query.toString()}`);
+      const res = await fetch(`/api/prayers?${query.toString()}`, {
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
       if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
       const data: KacstPrayerResponse = await res.json();
-      setPrayerData(data);
+      if (data && data.prayerTimes) {
+        setPrayerData(data);
+      }
     } catch (err) {
-      console.warn('Failed to fetch from /api/prayers, using fallback state:', err);
+      console.warn('Failed to fetch from /api/prayers, using calculated fallback state:', err);
+      setPrayerData(getFallbackPrayerTimes(yg, mg, dg, settings.lat, settings.lon));
     } finally {
+      clearTimeout(timeoutId);
       setLoadingPrayers(false);
     }
   }, [settings.lat, settings.lon, settings.zone]);
