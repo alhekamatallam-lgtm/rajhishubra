@@ -93,10 +93,13 @@ app.get('/api/prayers', async (req, res) => {
 
   const url = `https://umqserv.kacst.gov.sa/api/v1/Prayer/GetPrayers?lang=${lang}&format=${format}&yg=${yg}&mg=${mg}&dg=${dg}&lon=${lon}&lat=${lat}&zone=${zone}`;
 
+  const formattedDg = String(dg).padStart(2, '0');
+  const formattedMg = String(mg).padStart(2, '0');
+
   try {
     // 1. Try Aladhan API (Method 4 = Umm Al Qura University, Makkah) for accurate Saudi prayer times
-    const aladhanUrl = `https://api.aladhan.com/v1/timings/${dg}-${mg}-${yg}?latitude=${lat}&longitude=${lon}&method=4`;
-    const alRes = await fetch(aladhanUrl, { signal: AbortSignal.timeout(3500) });
+    const aladhanUrl = `https://api.aladhan.com/v1/timings/${formattedDg}-${formattedMg}-${yg}?latitude=${lat}&longitude=${lon}&method=4`;
+    const alRes = await fetch(aladhanUrl, { signal: AbortSignal.timeout(6000) });
     if (alRes.ok) {
       const alData = await alRes.json();
       const timings = alData.data.timings;

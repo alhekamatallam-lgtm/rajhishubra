@@ -128,7 +128,7 @@ export default function App() {
     });
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 3500);
+    const timeoutId = setTimeout(() => controller.abort(), 7000);
 
     try {
       const res = await fetch(`/api/prayers?${query.toString()}`, {
