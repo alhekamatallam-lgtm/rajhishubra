@@ -72,7 +72,10 @@ export default function App() {
   const [announcements, setAnnouncements] = useState<Announcement[]>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_ANNOUNCEMENTS_KEY);
-      return saved ? JSON.parse(saved) : INITIAL_ANNOUNCEMENTS;
+      if (!saved) return INITIAL_ANNOUNCEMENTS;
+      const parsed: Announcement[] = JSON.parse(saved);
+      // Remove old initial sample khutbah/lesson if present
+      return parsed.filter(a => a.id !== 'ann-1' && a.id !== 'ann-2');
     } catch {
       return INITIAL_ANNOUNCEMENTS;
     }

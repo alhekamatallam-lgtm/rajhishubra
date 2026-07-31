@@ -71,24 +71,6 @@ export const DEFAULT_ADHKAR: AdhkarItem[] = [
 
 export const INITIAL_ANNOUNCEMENTS = [
   {
-    id: 'ann-1',
-    title: 'عنوان خطبة الجمعة القادمة',
-    content: 'خطبة الجمعة بعنوان: "استقامة القلوب وأثر الذكر في الحياة" - للشيخ د. عبد الرحمن بن فهد المنصور.',
-    date: 'الجمعة القادمة',
-    category: 'khutbah' as const,
-    active: true,
-    author: 'إمام وخطيب الجامع'
-  },
-  {
-    id: 'ann-2',
-    title: 'درس اليوم بعد صلاة المغرب',
-    content: 'درس في تفسير آيات من سورة الحجرات يلقيه فضيلة الشيخ د. محمد العلي بعد صلاة المغرب مباشرة.',
-    date: 'اليوم',
-    category: 'lesson' as const,
-    active: true,
-    author: 'اللجنة العلمية بالجامع'
-  },
-  {
     id: 'ann-3',
     title: 'تنبيه للمصلين الكرام',
     content: 'يرجى التكرم بإغلاق أجهزة الجوال أو وضعها على الصامت عند دخول المسجد واحترام قدسية البيوت.',
