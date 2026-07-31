@@ -185,7 +185,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 font-sans text-slate-100 flex flex-col selection:bg-amber-500 selection:text-slate-950">
+    <div className="h-screen max-h-screen bg-slate-950 font-sans text-slate-100 flex flex-col overflow-hidden selection:bg-amber-500 selection:text-slate-950">
       {/* Top Header Controls Bar */}
       <HeaderBar
         viewMode={viewMode}
@@ -196,7 +196,7 @@ export default function App() {
       />
 
       {/* Main View Area */}
-      <main className="flex-1">
+      <main className="flex-1 flex flex-col overflow-hidden relative">
         {viewMode === 'display' ? (
           <DisplayView
             settings={settings}

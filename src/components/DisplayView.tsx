@@ -129,7 +129,7 @@ export const DisplayView: React.FC<DisplayViewProps> = ({
       : 'scale-95';
 
   return (
-    <div className={`min-h-screen ${theme.bgClass} font-sans dir-rtl ${theme.textPrimary} flex flex-col justify-between p-4 md:p-8 select-none overflow-hidden relative transition-colors duration-700 ${fontScaleClass}`}>
+    <div className={`h-full max-h-full flex-1 ${theme.bgClass} font-sans dir-rtl ${theme.textPrimary} flex flex-col justify-between p-2 md:p-4 lg:p-5 select-none overflow-hidden relative transition-colors duration-700`}>
       
       {/* FULLSCREEN OVERLAY: ADHAN STATE */}
       {subState === 'adhan' && (
@@ -260,13 +260,13 @@ export const DisplayView: React.FC<DisplayViewProps> = ({
       )}
 
       {/* 1. TOP HEADER SECTION: MOSQUE NAME & LOGOS, DATES, CLOCK */}
-      <header className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center border-b border-[#d4af37]/30 pb-6">
+      <header className="grid grid-cols-1 md:grid-cols-3 gap-3 items-center border-b border-[#d4af37]/30 pb-3 flex-shrink-0">
         
-        {/* Right: Mosque Logos side by side (Text removed as requested to maximize logo space) */}
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-4 flex-shrink-0">
+        {/* Right: Mosque Logos side by side */}
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-shrink-0">
             {settings.logoTallUrl && (
-              <div className="h-24 md:h-28 lg:h-32 max-w-[320px] bg-white rounded-2xl p-3 px-5 border-2 border-[#d4af37]/50 shadow-2xl flex items-center justify-center overflow-hidden">
+              <div className="h-16 md:h-20 lg:h-22 max-w-[260px] bg-white rounded-xl p-2 px-3 border-2 border-[#d4af37]/50 shadow-xl flex items-center justify-center overflow-hidden">
                 <img
                   src={settings.logoTallUrl}
                   alt="شعار المؤسسة"
@@ -279,7 +279,7 @@ export const DisplayView: React.FC<DisplayViewProps> = ({
               </div>
             )}
             {settings.logoUrl && (
-              <div className="h-24 md:h-28 lg:h-32 w-24 md:w-28 lg:w-32 bg-white rounded-2xl p-3 border-2 border-[#d4af37]/50 shadow-2xl flex items-center justify-center overflow-hidden">
+              <div className="h-16 md:h-20 lg:h-22 w-16 md:w-20 lg:w-22 bg-white rounded-xl p-2 border-2 border-[#d4af37]/50 shadow-xl flex items-center justify-center overflow-hidden">
                 <img
                   src={settings.logoUrl}
                   alt="شعار جامع الشيخ عبدالله الراجحي"
@@ -295,73 +295,73 @@ export const DisplayView: React.FC<DisplayViewProps> = ({
         </div>
 
         {/* Center: Main Digital Clock */}
-        <div className={`flex flex-col items-center justify-center ${theme.cardBgClass} rounded-2xl p-4 shadow-2xl`}>
+        <div className={`flex flex-col items-center justify-center ${theme.cardBgClass} rounded-xl p-2.5 shadow-xl`}>
           <div className="flex items-baseline gap-2 dir-ltr">
-            <span className={`text-5xl md:text-7xl lg:text-8xl font-black ${theme.accentGold} tracking-tight font-mono`}>
+            <span className={`text-4xl md:text-6xl lg:text-7xl font-black ${theme.accentGold} tracking-tight font-mono`}>
               {String(displayHours).padStart(2, '0')}:{timeMinutes}
             </span>
-            <span className={`text-xl md:text-3xl font-bold ${theme.textPrimary} font-mono`}>
+            <span className={`text-lg md:text-2xl font-bold ${theme.textPrimary} font-mono`}>
               :{timeSeconds}
             </span>
-            <span className={`text-xl md:text-2xl font-black ${theme.accentGold} ml-1`}>
+            <span className={`text-lg md:text-xl font-black ${theme.accentGold} ml-1`}>
               {periodAr}
             </span>
           </div>
-          <span className={`text-xs md:text-sm font-semibold ${theme.textSecondary} mt-1 font-sans`}>
+          <span className={`text-[11px] md:text-xs font-semibold ${theme.textSecondary} mt-0.5 font-sans`}>
             التوقيت المحلي لمدينة {settings.cityNameAr}
           </span>
         </div>
 
         {/* Left: Hijri & Gregorian Dates */}
-        <div className="flex flex-col items-start md:items-end space-y-2">
+        <div className="flex flex-col items-start md:items-end space-y-1">
           {/* Hijri Date Box */}
-          <div className={`${theme.cardBgClass} px-5 py-2.5 rounded-xl flex items-center gap-3`}>
-            <Calendar className={`w-5 h-5 ${theme.accentGold} flex-shrink-0`} />
+          <div className={`${theme.cardBgClass} px-4 py-2 rounded-xl flex items-center gap-2.5`}>
+            <Calendar className={`w-4 h-4 ${theme.accentGold} flex-shrink-0`} />
             <div>
-              <span className={`text-xs ${theme.textSecondary} block font-sans`}>التاريخ الهجري (تقويم أم القرى):</span>
-              <span className={`text-base md:text-xl font-bold ${theme.accentGold}`}>
+              <span className={`text-[11px] ${theme.textSecondary} block font-sans`}>التاريخ الهجري (تقويم أم القرى):</span>
+              <span className={`text-sm md:text-lg font-bold ${theme.accentGold}`}>
                 {currentDayAr} {hijriDate.day} {hijriDate.nameAr} {hijriDate.year} هـ
               </span>
             </div>
           </div>
 
           {/* Gregorian Date */}
-          <div className={`text-xs md:text-sm ${theme.textSecondary} font-medium px-2 font-sans`}>
+          <div className={`text-[11px] md:text-xs ${theme.textSecondary} font-medium px-2 font-sans`}>
             <span>{gregorianDate.day} {gregorianDate.nameAr} {gregorianDate.year} م</span>
           </div>
         </div>
       </header>
 
       {/* 2. MAIN CENTER SECTION: PRAYER TIMES CARDS GRID & COUNTDOWN BANNER */}
-      <main className="my-6 space-y-6">
+      <main className="my-2 md:my-4 space-y-3 md:space-y-4 flex-1 flex flex-col justify-center overflow-hidden">
         
         {/* Next Prayer Countdown Card */}
-        <div className={`${theme.cardBgClass} rounded-3xl p-6 border-2 ${theme.accentBorder} shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden`}>
-          <div className="absolute top-0 right-0 w-32 h-32 bg-[#d4af37]/10 rounded-full blur-2xl" />
+        <div className={`${theme.cardBgClass} rounded-2xl p-4 border-2 ${theme.accentBorder} shadow-xl flex flex-col md:flex-row items-center justify-between gap-4 relative overflow-hidden flex-shrink-0`}>
+          <div className="absolute top-0 right-0 w-28 h-28 bg-[#d4af37]/10 rounded-full blur-2xl" />
 
-          <div className="space-y-2 text-center md:text-right">
-            <span className={`inline-block text-xs font-bold ${theme.badgeBg} px-3 py-1 rounded-full`}>
+          <div className="space-y-1 text-center md:text-right">
+            <span className={`inline-block text-[11px] font-bold ${theme.badgeBg} px-2.5 py-0.5 rounded-full`}>
               الصَّلاَةُ القَادِمَةُ
             </span>
-            <h2 className={`text-3xl md:text-5xl font-black ${theme.accentGold} font-serif`}>
+            <h2 className={`text-2xl md:text-4xl font-black ${theme.accentGold} font-serif`}>
               صَلاَةُ {PRAYER_NAMES_AR[nextInfo.nextPrayer]}
             </h2>
-            <p className={`text-sm md:text-base ${theme.textSecondary}`}>
+            <p className={`text-xs md:text-sm ${theme.textSecondary}`}>
               الوقت المقرر للأذان: <span className={`font-bold ${theme.accentGold}`}>{nextInfo.nextPrayerTimeStr}</span>
             </p>
           </div>
 
           {/* Countdown Display */}
-          <div className={`flex flex-col items-center justify-center ${theme.tickerBg} px-8 py-4 rounded-2xl shadow-inner`}>
-            <span className={`text-xs ${theme.textSecondary} font-semibold mb-1`}>الوَقْتُ المُتَبَقِّي لِلأَذَانِ:</span>
-            <span className={`text-3xl md:text-5xl lg:text-6xl font-black ${theme.accentGold} font-mono tracking-widest dir-ltr`}>
+          <div className={`flex flex-col items-center justify-center ${theme.tickerBg} px-6 py-2.5 rounded-xl shadow-inner`}>
+            <span className={`text-[11px] ${theme.textSecondary} font-semibold mb-0.5`}>الوَقْتُ المُتَبَقِّي لِلأَذَانِ:</span>
+            <span className={`text-2xl md:text-4xl lg:text-5xl font-black ${theme.accentGold} font-mono tracking-widest dir-ltr`}>
               {formatSecondsToHHMMSS(nextInfo.diffSeconds)}
             </span>
           </div>
         </div>
 
-        {/* 6 PRAYER CARDS GRID (HUGE CONTRAST FOR 90" TV) */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
+        {/* 6 PRAYER CARDS GRID */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 md:gap-3 flex-1">
           {(['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'] as PrayerName[]).map((name) => {
             const timeVal = prayerTimes[name];
             const isCurrent = currentPrayerName === name;
@@ -371,7 +371,7 @@ export const DisplayView: React.FC<DisplayViewProps> = ({
             return (
               <div
                 key={name}
-                className={`p-4 md:p-6 rounded-2xl transition-all duration-500 flex flex-col justify-between h-40 md:h-48 text-center relative ${
+                className={`p-3 md:p-4 rounded-xl transition-all duration-500 flex flex-col justify-between text-center relative ${
                   isNext
                     ? theme.activePrayerBg
                     : isCurrent
@@ -380,33 +380,33 @@ export const DisplayView: React.FC<DisplayViewProps> = ({
                 }`}
               >
                 {/* Header Tag */}
-                <div className="flex items-center justify-between text-xs font-sans">
+                <div className="flex items-center justify-between text-[11px] font-sans">
                   <span className={`font-bold ${isNext ? theme.activePrayerText : theme.accentGold}`}>
                     {name === 'sunrise' ? 'الشروق' : 'أذان'}
                   </span>
                   {name !== 'sunrise' && (
-                    <span className={`text-[11px] font-semibold ${isNext ? theme.activePrayerText : theme.textSecondary}`}>
+                    <span className={`text-[10px] font-semibold ${isNext ? theme.activePrayerText : theme.textSecondary}`}>
                       الإقامة: +{iqMin}د
                     </span>
                   )}
                 </div>
 
                 {/* Prayer Name */}
-                <div className="my-auto">
-                  <h3 className={`text-xl md:text-2xl lg:text-3xl font-bold font-serif ${isNext ? theme.activePrayerText : theme.accentGold}`}>
+                <div className="my-auto py-1">
+                  <h3 className={`text-lg md:text-xl lg:text-2xl font-bold font-serif ${isNext ? theme.activePrayerText : theme.accentGold}`}>
                     {PRAYER_NAMES_AR[name]}
                   </h3>
 
                   {/* Prayer Time */}
-                  <span className={`block text-2xl md:text-3xl lg:text-4xl font-bold font-mono mt-2 dir-ltr ${isNext ? theme.activePrayerText : theme.textPrimary}`}>
+                  <span className={`block text-xl md:text-2xl lg:text-3xl font-bold font-mono mt-1 dir-ltr ${isNext ? theme.activePrayerText : theme.textPrimary}`}>
                     {timeVal}
                   </span>
                 </div>
 
                 {/* Status Indicator */}
-                <div className="text-[11px] font-bold font-sans">
+                <div className="text-[10px] font-bold font-sans">
                   {isNext ? (
-                    <span className={`${theme.badgeBg} px-3 py-0.5 rounded-full inline-block uppercase text-[10px] tracking-widest font-extrabold shadow-sm`}>
+                    <span className={`${theme.badgeBg} px-2.5 py-0.5 rounded-full inline-block uppercase text-[9px] tracking-widest font-extrabold shadow-sm`}>
                       القادمة
                     </span>
                   ) : isCurrent ? (
@@ -423,45 +423,45 @@ export const DisplayView: React.FC<DisplayViewProps> = ({
 
       {/* 3. ANNOUNCEMENTS CAROUSEL SLIDER */}
       {activeAnnouncements.length > 0 && (
-        <section className={`${theme.cardBgClass} rounded-2xl p-4 shadow-lg mb-4 flex items-center justify-between gap-4`}>
-          <div className="flex items-center gap-3">
-            <span className={`${theme.badgeBg} text-xs font-bold px-3 py-1.5 rounded-xl flex-shrink-0`}>
+        <section className={`${theme.cardBgClass} rounded-xl p-3 shadow-md mb-2 flex items-center justify-between gap-3 flex-shrink-0`}>
+          <div className="flex items-center gap-2.5 overflow-hidden">
+            <span className={`${theme.badgeBg} text-[11px] font-bold px-2.5 py-1 rounded-lg flex-shrink-0`}>
               {activeAnnouncements[activeAnnounceIndex]?.category === 'khutbah'
                 ? 'خطبة الجمعة'
                 : activeAnnouncements[activeAnnounceIndex]?.category === 'lesson'
                 ? 'درس اليوم'
                 : 'إعلان الجامع'}
             </span>
-            <div>
-              <h4 className={`font-bold text-base md:text-lg ${theme.accentGold}`}>
+            <div className="overflow-hidden">
+              <h4 className={`font-bold text-xs md:text-sm ${theme.accentGold} truncate`}>
                 {activeAnnouncements[activeAnnounceIndex]?.title}
               </h4>
-              <p className={`text-xs md:text-sm ${theme.textSecondary} line-clamp-1`}>
+              <p className={`text-[11px] md:text-xs ${theme.textSecondary} truncate`}>
                 {activeAnnouncements[activeAnnounceIndex]?.content}
               </p>
             </div>
           </div>
 
-          <div className={`flex items-center gap-1 text-xs ${theme.textSecondary} flex-shrink-0`}>
+          <div className={`flex items-center gap-1 text-[11px] ${theme.textSecondary} flex-shrink-0`}>
             <span>{activeAnnounceIndex + 1} / {activeAnnouncements.length}</span>
           </div>
         </section>
       )}
 
       {/* 4. BOTTOM TICKER FOOTER: CONTINUOUS ADHKAR SCROLL */}
-      <footer className={`${theme.tickerBg} rounded-2xl p-4 flex items-center justify-between gap-4 shadow-2xl`}>
+      <footer className={`${theme.tickerBg} rounded-xl p-3 flex items-center justify-between gap-3 shadow-xl flex-shrink-0`}>
         <div className="flex items-center gap-2 flex-shrink-0">
-          <Sparkles className={`w-5 h-5 ${theme.accentGold}`} />
-          <span className={`font-bold text-sm ${theme.accentGold}`}>أَذْكَارٌ وَآيَاتٌ:</span>
+          <Sparkles className={`w-4 h-4 ${theme.accentGold}`} />
+          <span className={`font-bold text-xs md:text-sm ${theme.accentGold}`}>أَذْكَارٌ وَآيَاتٌ:</span>
         </div>
 
         <div className="flex-1 overflow-hidden">
-          <p className={`text-base md:text-xl font-bold ${theme.textPrimary} font-serif truncate transition-all duration-500`}>
+          <p className={`text-sm md:text-lg font-bold ${theme.textPrimary} font-serif truncate transition-all duration-500`}>
             {adhkar[activeAdhkarIndex]?.text}
           </p>
         </div>
 
-        <span className={`text-xs ${theme.textSecondary} flex-shrink-0 hidden md:inline`}>
+        <span className={`text-[11px] md:text-xs ${theme.textSecondary} flex-shrink-0 hidden md:inline`}>
           {adhkar[activeAdhkarIndex]?.source}
         </span>
       </footer>
