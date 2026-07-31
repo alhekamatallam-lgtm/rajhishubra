@@ -361,7 +361,7 @@ export const DisplayView: React.FC<DisplayViewProps> = ({
         </div>
 
         {/* 6 PRAYER CARDS GRID */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 md:gap-3 flex-1">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-2.5 flex-1">
           {(['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'] as PrayerName[]).map((name) => {
             const timeVal = prayerTimes[name];
             const isCurrent = currentPrayerName === name;
@@ -371,7 +371,7 @@ export const DisplayView: React.FC<DisplayViewProps> = ({
             return (
               <div
                 key={name}
-                className={`p-3 md:p-4 rounded-xl transition-all duration-500 flex flex-col justify-between text-center relative ${
+                className={`p-2 md:p-3 rounded-xl transition-all duration-500 flex flex-col justify-between text-center relative ${
                   isNext
                     ? theme.activePrayerBg
                     : isCurrent
@@ -380,33 +380,33 @@ export const DisplayView: React.FC<DisplayViewProps> = ({
                 }`}
               >
                 {/* Header Tag */}
-                <div className="flex items-center justify-between text-[11px] font-sans">
+                <div className="flex items-center justify-between text-[10px] md:text-[11px] font-sans">
                   <span className={`font-bold ${isNext ? theme.activePrayerText : theme.accentGold}`}>
                     {name === 'sunrise' ? 'الشروق' : 'أذان'}
                   </span>
                   {name !== 'sunrise' && (
-                    <span className={`text-[10px] font-semibold ${isNext ? theme.activePrayerText : theme.textSecondary}`}>
+                    <span className={`text-[9px] md:text-[10px] font-semibold ${isNext ? theme.activePrayerText : theme.textSecondary}`}>
                       الإقامة: +{iqMin}د
                     </span>
                   )}
                 </div>
 
                 {/* Prayer Name */}
-                <div className="my-auto py-1">
-                  <h3 className={`text-lg md:text-xl lg:text-2xl font-bold font-serif ${isNext ? theme.activePrayerText : theme.accentGold}`}>
+                <div className="my-auto py-0.5">
+                  <h3 className={`text-base md:text-lg lg:text-xl font-bold font-serif ${isNext ? theme.activePrayerText : theme.accentGold}`}>
                     {PRAYER_NAMES_AR[name]}
                   </h3>
 
                   {/* Prayer Time */}
-                  <span className={`block text-xl md:text-2xl lg:text-3xl font-bold font-mono mt-1 dir-ltr ${isNext ? theme.activePrayerText : theme.textPrimary}`}>
+                  <span className={`block text-lg md:text-xl lg:text-2xl font-bold font-mono mt-0.5 dir-ltr ${isNext ? theme.activePrayerText : theme.textPrimary}`}>
                     {timeVal}
                   </span>
                 </div>
 
                 {/* Status Indicator */}
-                <div className="text-[10px] font-bold font-sans">
+                <div className="text-[9px] md:text-[10px] font-bold font-sans">
                   {isNext ? (
-                    <span className={`${theme.badgeBg} px-2.5 py-0.5 rounded-full inline-block uppercase text-[9px] tracking-widest font-extrabold shadow-sm`}>
+                    <span className={`${theme.badgeBg} px-2 py-0.5 rounded-full inline-block uppercase text-[9px] tracking-widest font-extrabold shadow-sm`}>
                       القادمة
                     </span>
                   ) : isCurrent ? (
@@ -423,9 +423,9 @@ export const DisplayView: React.FC<DisplayViewProps> = ({
 
       {/* 3. ANNOUNCEMENTS CAROUSEL SLIDER */}
       {activeAnnouncements.length > 0 && (
-        <section className={`${theme.cardBgClass} rounded-xl p-3 shadow-md mb-2 flex items-center justify-between gap-3 flex-shrink-0`}>
-          <div className="flex items-center gap-2.5 overflow-hidden">
-            <span className={`${theme.badgeBg} text-[11px] font-bold px-2.5 py-1 rounded-lg flex-shrink-0`}>
+        <section className={`${theme.cardBgClass} rounded-xl p-3.5 md:p-4 shadow-md mb-2 flex items-center justify-between gap-3 flex-shrink-0 border border-[#d4af37]/20`}>
+          <div className="flex items-center gap-3 overflow-hidden">
+            <span className={`${theme.badgeBg} text-xs md:text-sm font-bold px-3 py-1 rounded-lg flex-shrink-0`}>
               {activeAnnouncements[activeAnnounceIndex]?.category === 'khutbah'
                 ? 'خطبة الجمعة'
                 : activeAnnouncements[activeAnnounceIndex]?.category === 'lesson'
@@ -433,35 +433,35 @@ export const DisplayView: React.FC<DisplayViewProps> = ({
                 : 'إعلان الجامع'}
             </span>
             <div className="overflow-hidden">
-              <h4 className={`font-bold text-xs md:text-sm ${theme.accentGold} truncate`}>
+              <h4 className={`font-bold text-sm md:text-base ${theme.accentGold} truncate`}>
                 {activeAnnouncements[activeAnnounceIndex]?.title}
               </h4>
-              <p className={`text-[11px] md:text-xs ${theme.textSecondary} truncate`}>
+              <p className={`text-xs md:text-sm ${theme.textSecondary} truncate mt-0.5`}>
                 {activeAnnouncements[activeAnnounceIndex]?.content}
               </p>
             </div>
           </div>
 
-          <div className={`flex items-center gap-1 text-[11px] ${theme.textSecondary} flex-shrink-0`}>
+          <div className={`flex items-center gap-1 text-xs md:text-sm ${theme.textSecondary} flex-shrink-0`}>
             <span>{activeAnnounceIndex + 1} / {activeAnnouncements.length}</span>
           </div>
         </section>
       )}
 
       {/* 4. BOTTOM TICKER FOOTER: CONTINUOUS ADHKAR SCROLL */}
-      <footer className={`${theme.tickerBg} rounded-xl p-3 flex items-center justify-between gap-3 shadow-xl flex-shrink-0`}>
+      <footer className={`${theme.tickerBg} rounded-xl p-3.5 md:p-4 flex items-center justify-between gap-3.5 shadow-xl flex-shrink-0 border border-[#d4af37]/30`}>
         <div className="flex items-center gap-2 flex-shrink-0">
-          <Sparkles className={`w-4 h-4 ${theme.accentGold}`} />
-          <span className={`font-bold text-xs md:text-sm ${theme.accentGold}`}>أَذْكَارٌ وَآيَاتٌ:</span>
+          <Sparkles className={`w-5 h-5 ${theme.accentGold}`} />
+          <span className={`font-bold text-sm md:text-base ${theme.accentGold}`}>أَذْكَارٌ وَآيَاتٌ:</span>
         </div>
 
-        <div className="flex-1 overflow-hidden">
-          <p className={`text-sm md:text-lg font-bold ${theme.textPrimary} font-serif truncate transition-all duration-500`}>
+        <div className="flex-1 overflow-hidden px-2">
+          <p className={`text-base md:text-xl lg:text-2xl font-bold ${theme.textPrimary} font-serif truncate transition-all duration-500`}>
             {adhkar[activeAdhkarIndex]?.text}
           </p>
         </div>
 
-        <span className={`text-[11px] md:text-xs ${theme.textSecondary} flex-shrink-0 hidden md:inline`}>
+        <span className={`text-xs md:text-sm ${theme.textSecondary} flex-shrink-0 hidden md:inline`}>
           {adhkar[activeAdhkarIndex]?.source}
         </span>
       </footer>
